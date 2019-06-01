@@ -11,17 +11,19 @@ namespace Service
     {
         public List<Quantifier> Quantifiers { get; set; }
         public List<Qualifier> Qualifiers { get; set; }
+        public int QualifiersMinNumber { get; set; }
+        public int QualifiersMaxNumber { get; set; }
+        public List<Operation> QualifierOperations { get; set; }
         public List<Summarizer> Summarizers { get; set; }
+        public int SummarizersMinNumber { get; set; }
+        public int SummarizersMaxNumber { get; set; }
+        public List<Operation> SummarizerOperations { get; set; }
         public List<LinguisticSummarization> Summarizations { get; set; }
         public List<Model> Data { get; set; }
 
-        public LinguisticSummarizationService(List<Quantifier> quantifiers, List<Qualifier> qualifiers, List<Summarizer> summarizers, List<Model> data)
+        public LinguisticSummarizationService()
         {
-            Quantifiers = quantifiers;
-            Qualifiers = qualifiers;
-            Summarizers = summarizers;
             Summarizations = new List<LinguisticSummarization>();
-            Data = data;
         }
 
         public List<(string, Result)> Summarize()
@@ -35,9 +37,34 @@ namespace Service
                 {
                     foreach (var summarizersCombination in summarizersCombinations)
                     {
-                        Summarizations.Add(new LinguisticSummarization() { Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, Operation = Operation.And });
-                        if (summarizersCombination.Count > 1)
-                            Summarizations.Add(new LinguisticSummarization() { Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, Operation = Operation.Or });
+                        if (qualifierCombination.Count > 1)
+                        {
+                            foreach (var qualifierOperation in QualifierOperations)
+                            {
+                                if (summarizersCombination.Count > 1)
+                                {
+                                    foreach (var operation in SummarizerOperations)
+                                    {
+                                        Summarizations.Add(new LinguisticSummarization() { Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, OperationQualifier = qualifierOperation, OperationSummarizer = operation });
+                                    }
+                                }
+                                else
+                                    Summarizations.Add(new LinguisticSummarization() { Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, OperationQualifier = qualifierOperation, OperationSummarizer = Operation.None });
+                            }
+
+                        }
+                        else
+                        {
+                            if (summarizersCombination.Count > 1)
+                            {
+                                foreach (var operation in SummarizerOperations)
+                                {
+                                    Summarizations.Add(new LinguisticSummarization() { Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, OperationQualifier = Operation.None, OperationSummarizer = operation });
+                                }
+                            }
+                            else
+                                Summarizations.Add(new LinguisticSummarization() { Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, OperationQualifier = Operation.None, OperationSummarizer = Operation.None });
+                        }
                     }
                 }
             }
@@ -54,9 +81,9 @@ namespace Service
         {
             List<List<Summarizer>> summarizersCombinations = new List<List<Summarizer>>();
             Stack<int> combinations = new Stack<int>();
-            for (int i = 1; i <= Summarizers.Count; i++)
+            for (int i = SummarizersMinNumber; i <= Summarizers.Count; i++)
             {
-                NextCombination(combinations, i, Summarizers.Count, 1, summarizersCombinations);
+                NextCombination(combinations, i, SummarizersMaxNumber, 1, summarizersCombinations);
             }
             return summarizersCombinations;
         }
@@ -83,9 +110,9 @@ namespace Service
         {
             List<List<Qualifier>> qualifierCombinations = new List<List<Qualifier>>();
             Stack<int> combinations = new Stack<int>();
-            for (int i = 0; i <= Qualifiers.Count; i++)
+            for (int i = QualifiersMinNumber; i <= Qualifiers.Count; i++)
             {
-                NextCombinationQualifier(combinations, i, Summarizers.Count, 1, qualifierCombinations);
+                NextCombinationQualifier(combinations, i, QualifiersMaxNumber, 1, qualifierCombinations);
             }
             return qualifierCombinations;
         }

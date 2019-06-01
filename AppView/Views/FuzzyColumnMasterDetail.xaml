@@ -28,34 +28,35 @@
                 Grid.Column="0"
                 Header="Linguistic Variable"
                 Margin="5">
-                <StackPanel >
-                    <TextBox 
+                <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                    <StackPanel >
+                        <TextBox 
                 Margin="5" 
                 Text="{Binding Name, Mode=OneWay}"
                 materialDesign:HintAssist.Hint="Name"
                 IsReadOnly="True"
                 Focusable="False"
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-                    <TextBox
+                        <TextBox
                 Margin="5" 
                 Text="{Binding Range, Mode=OneWay}"
                 materialDesign:HintAssist.Hint="Range of Values"
                 IsReadOnly="True"
                 Focusable="False"
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-                    <ListBox 
+                        <ListBox 
                 Margin="5" 
                 ItemsSource="{Binding FuzzySets}"
                 MaxHeight="200"
                 SelectedItem="{Binding SelectedFuzzySet}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock 
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock 
                         Text="{Binding Name}"/>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <materialDesign:PopupBox
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <materialDesign:PopupBox
                 Grid.Row="1"
                 Style="{StaticResource MaterialDesignMultiFloatingActionAccentPopupBox}"
                 PlacementMode="LeftAndAlignMiddles"
@@ -63,22 +64,24 @@
                 Margin="0 0 10 10"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom">
-                        <StackPanel
+                            <StackPanel
                     Orientation="Horizontal">
-                            <Button
+                                <Button
                         ToolTip="Add an item"
                         Command="{Binding AddLinguisticValueCommand}">
-                                <materialDesign:PackIcon Kind="Add" />
-                            </Button>
-                            <Button
+                                    <materialDesign:PackIcon Kind="Add" />
+                                </Button>
+                                <Button
                         ToolTip="Remove selected item"
                         Command="{Binding RemoveLinguisticValueCommand}">
-                                <materialDesign:PackIcon Kind="Bin" />
-                            </Button>
-                        </StackPanel>
-                    </materialDesign:PopupBox>
-                    <Button Content="Rysuj" Command="{Binding DrawCommand}"></Button>
-                </StackPanel>
+                                    <materialDesign:PackIcon Kind="Bin" />
+                                </Button>
+                            </StackPanel>
+                        </materialDesign:PopupBox>
+                        <Button Content="Rysuj" Command="{Binding DrawCommand}"></Button>
+                    </StackPanel>
+                </ScrollViewer>
+              
             </GroupBox>
 
             <Border 

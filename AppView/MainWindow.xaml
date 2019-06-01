@@ -233,12 +233,12 @@
                                             Margin="5"
                                             Content="And"
                                             IsChecked="{Binding AndQualifiers}"
-                                        ></CheckBox>
+                                        />
                                         <CheckBox 
                                             Margin="5"
                                             Content="Or"
                                             IsChecked="{Binding OrQualifiers}"
-                                        ></CheckBox>
+                                        />
                                     </StackPanel>
                                 </StackPanel>
                                 <StackPanel 
@@ -291,12 +291,12 @@
                                             Margin="5"
                                             Content="And"
                                             IsChecked="{Binding AndSummarizers}"
-                                        ></CheckBox>
+                                        />
                                         <CheckBox 
                                             Margin="5"
                                             Content="Or"
                                             IsChecked="{Binding OrSummarizers}"
-                                        ></CheckBox>
+                                        />
                                     </StackPanel>
                                   
                                 </StackPanel>

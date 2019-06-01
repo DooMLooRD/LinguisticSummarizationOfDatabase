@@ -14,7 +14,8 @@ namespace Service
         public List<Qualifier> Qualifiers { get; set; }
         public List<Summarizer> Summarizers { get; set; }
         public string Subject { get; set; }
-        public Operation Operation { get; set; }
+        public Operation OperationQualifier { get; set; }
+        public Operation OperationSummarizer { get; set; }
         public List<Model> Data { get; set; }
 
         public string GenerateSummarization()
@@ -27,7 +28,7 @@ namespace Service
 
                 for (int i = 1; i < Qualifiers.Count; i++)
                 {
-                    if (Operation == Operation.And)
+                    if (OperationQualifier == Operation.And)
                     {
                         result += " and  " + Qualifiers[i].Label;
                     }
@@ -43,7 +44,7 @@ namespace Service
 
             for (int i = 1; i < Summarizers.Count; i++)
             {
-                if (Operation == Operation.And)
+                if (OperationSummarizer == Operation.And)
                 {
                     result += " and  " + Summarizers[i].Label;
                 }
@@ -65,5 +66,6 @@ namespace Service
     {
         And,
         Or,
+        None
     }
 }

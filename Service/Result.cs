@@ -64,14 +64,14 @@ namespace Service
                     double w = summarization.Qualifiers[0].CalculateMembership(GetValue(tuple, summarization.Qualifiers[0].ColumnName));
                     for (int i = 1; i < summarization.Summarizers.Count; i++)
                     {
-                        if (summarization.Operation == Operation.And)
+                        if (summarization.OperationSummarizer == Operation.And)
                             s = Math.Min(s, summarization.Summarizers[i].CalculateMembership(GetValue(tuple, summarization.Summarizers[i].ColumnName)));
                         else
                             s = Math.Max(s, summarization.Summarizers[i].CalculateMembership(GetValue(tuple, summarization.Summarizers[i].ColumnName)));
                     }
                     for (int i = 1; i < summarization.Qualifiers.Count; i++)
                     {
-                        if (summarization.Operation == Operation.And)
+                        if (summarization.OperationQualifier == Operation.And)
                             w = Math.Min(w, summarization.Qualifiers[i].CalculateMembership(GetValue(tuple, summarization.Qualifiers[i].ColumnName)));
                         else
                             w = Math.Max(w, summarization.Qualifiers[i].CalculateMembership(GetValue(tuple, summarization.Qualifiers[i].ColumnName)));
@@ -93,7 +93,7 @@ namespace Service
 
                     for (int i = 1; i < summarization.Summarizers.Count; i++)
                     {
-                        if (summarization.Operation == Operation.And)
+                        if (summarization.OperationSummarizer == Operation.And)
                             s = Math.Min(s, summarization.Summarizers[i].CalculateMembership(GetValue(tuple, summarization.Summarizers[i].ColumnName)));
                         else
                             s = Math.Max(s, summarization.Summarizers[i].CalculateMembership(GetValue(tuple, summarization.Summarizers[i].ColumnName)));

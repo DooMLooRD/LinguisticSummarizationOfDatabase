@@ -41,6 +41,15 @@ namespace AppView.ViewModels
         public ObservableCollection<SummarizerParentViewModel> Summarizers { get; set; }
         public ObservableCollection<SummarizerParentViewModel> Qualifiers { get; set; }
         public ObservableCollection<ResultViewModel> Results { get; set; }
+
+        public int MinSummarizers { get; set; }
+        public int MaxSummarizers { get; set; }
+        public int MinQualifiers { get; set; }
+        public int MaxQualifiers { get; set; }
+        public bool AndSummarizers { get; set; }
+        public bool OrSummarizers { get; set; }
+        public bool AndQualifiers { get; set; }
+        public bool OrQualifiers { get; set; }
         #endregion
 
         #region Commands
@@ -168,7 +177,30 @@ namespace AppView.ViewModels
                 List<Summarizer> summarizers = Summarizers.SelectMany(c => c.FuzzySets.Where(d => d.IsChecked).Select(d => (Summarizer)d.FuzzySet)).ToList();
                 DataLoader loader = new DataLoader();
                 List<Model> data = loader.LoadData();
-                LinguisticSummarizationService service = new LinguisticSummarizationService(quantifiers, qualifiers, summarizers, data);
+                List<Operation> qualifiersOperation = new List<Operation>();
+                List<Operation> summarizersOperation = new List<Operation>();
+                if (AndQualifiers)
+                    qualifiersOperation.Add(Operation.And);
+                if (OrQualifiers)
+                    qualifiersOperation.Add(Operation.Or);
+                if (AndSummarizers)
+                    summarizersOperation.Add(Operation.And);
+                if (OrSummarizers)
+                    summarizersOperation.Add(Operation.Or);
+
+                LinguisticSummarizationService service = new LinguisticSummarizationService
+                {
+                    Quantifiers = quantifiers,
+                    Qualifiers = qualifiers,
+                    QualifiersMinNumber = MinQualifiers,
+                    QualifiersMaxNumber = MaxQualifiers,
+                    QualifierOperations=qualifiersOperation,
+                    Summarizers = summarizers,
+                    SummarizersMinNumber = MinSummarizers,
+                    SummarizersMaxNumber = MaxSummarizers,
+                    SummarizerOperations=summarizersOperation,
+                    Data = data
+                };
                 var summarization = service.Summarize();
 
                 Results = new ObservableCollection<ResultViewModel>(summarization.Select(c => new ResultViewModel() { Summarization = c.Item1, Result = c.Item2 }));
