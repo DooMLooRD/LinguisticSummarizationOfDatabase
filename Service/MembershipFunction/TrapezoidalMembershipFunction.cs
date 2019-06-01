@@ -9,6 +9,11 @@ namespace Service.MembershipFunction
     public class TrapezoidalMembershipFunction : IMembershipFunction
     {
         public List<double> Parameters { get; set; }
+        public TrapezoidalMembershipFunction()
+        {
+            Parameters = new List<double> { 0, 0, 0, 0 };
+
+        }
 
         public double CalculateMembership(double value)
         {
@@ -27,6 +32,16 @@ namespace Service.MembershipFunction
             if (value < end && value > endMiddle)
                 return (end - value) / (end - endMiddle);
             return 0;
+        }
+
+        public double Support()
+        {
+            return (Math.Abs(Parameters[3] - Parameters[0]) + Math.Abs(Parameters[2] - Parameters[1])) / 2.0;
+        }
+
+        public double Cardinality()
+        {
+            return Math.Abs(Parameters[3] - Parameters[0]);
         }
     }
 }

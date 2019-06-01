@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:AppView.View"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:viewModel="clr-namespace:AppView.ViewModels"
              mc:Ignorable="d" 
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -12,40 +13,49 @@
              TextOptions.TextRenderingMode="Auto"
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{DynamicResource MaterialDesignFont}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="800" d:DesignWidth="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="3*"/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
-            <TextBox 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox
+                Grid.Column="0"
+                Header="Linguistic Variable"
+                Margin="5">
+                <StackPanel >
+                    <TextBox 
                 Margin="5" 
                 Text="{Binding Name, Mode=OneWay}"
-                materialDesign:HintAssist.Hint="Fuzzy Column Name"
+                materialDesign:HintAssist.Hint="Name"
                 IsReadOnly="True"
                 Focusable="False"
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-            <TextBox
+                    <TextBox
                 Margin="5" 
                 Text="{Binding Range, Mode=OneWay}"
                 materialDesign:HintAssist.Hint="Range of Values"
                 IsReadOnly="True"
                 Focusable="False"
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-            <ListBox 
+                    <ListBox 
                 Margin="5" 
-                ItemsSource="{Binding SemanticRules}"
-                MaxHeight="300"
-                SelectedItem="{Binding SelectedSemanticRule}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock 
+                ItemsSource="{Binding FuzzySets}"
+                MaxHeight="200"
+                SelectedItem="{Binding SelectedFuzzySet}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock 
                         Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            <materialDesign:PopupBox
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <materialDesign:PopupBox
                 Grid.Row="1"
                 Style="{StaticResource MaterialDesignMultiFloatingActionAccentPopupBox}"
                 PlacementMode="LeftAndAlignMiddles"
@@ -53,33 +63,39 @@
                 Margin="0 0 10 10"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom">
-                <StackPanel
+                        <StackPanel
                     Orientation="Horizontal">
-                    <Button
+                            <Button
                         ToolTip="Add an item"
                         Command="{Binding AddLinguisticValueCommand}">
-                        <materialDesign:PackIcon Kind="Add" />
-                    </Button>
-                    <Button
+                                <materialDesign:PackIcon Kind="Add" />
+                            </Button>
+                            <Button
                         ToolTip="Remove selected item"
                         Command="{Binding RemoveLinguisticValueCommand}">
-                        <materialDesign:PackIcon Kind="Bin" />
-                    </Button>
+                                <materialDesign:PackIcon Kind="Bin" />
+                            </Button>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+                    <Button Content="Rysuj" Command="{Binding DrawCommand}"></Button>
                 </StackPanel>
-            </materialDesign:PopupBox>
-        </StackPanel>
-        <Border 
+            </GroupBox>
+
+            <Border 
             Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
             Grid.Column="1">
-            <StackPanel 
-            DataContext="{Binding SelectedSemanticRule}">
-                <TextBox 
+                <GroupBox
+                Header="Fuzzy Set"
+                Margin="5">
+                    <StackPanel 
+            DataContext="{Binding SelectedFuzzySet}">
+                        <TextBox 
                 Margin="5" 
                 Text="{Binding Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                 materialDesign:HintAssist.Hint="Label Name"
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-                <StackPanel Orientation="Horizontal" >
-                    <RadioButton
+                        <StackPanel Orientation="Horizontal" >
+                            <RadioButton
                     Margin="5" 
                     Style="{StaticResource MaterialDesignRadioButton}"
                     GroupName="MembershipFunction"
@@ -87,16 +103,60 @@
                     IsChecked="{Binding MembershipFunction,
                     UpdateSourceTrigger=PropertyChanged,
                     Converter={StaticResource MembershipToBooleanConverter}, ConverterParameter={x:Static viewModel:MembershipEnum.TRIANGULAR}}"/>
-                    <RadioButton 
+                            <RadioButton 
                     Margin="5" 
                     Style="{StaticResource MaterialDesignRadioButton}"
                     GroupName="MembershipFunction"
                     Content="Trapezoidal Function"
                     IsChecked="{Binding MembershipFunction, UpdateSourceTrigger=PropertyChanged,
                     Converter={StaticResource MembershipToBooleanConverter}, ConverterParameter={x:Static viewModel:MembershipEnum.TRAPEZOIDAL}}"/>
-                </StackPanel>
-            </StackPanel>
-        </Border>
-       
+                        </StackPanel>
+                        <TextBox
+                Margin="5" 
+                Text="{Binding Start, Mode=TwoWay}"
+                materialDesign:HintAssist.Hint="Start"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                        <TextBox
+                Margin="5" 
+                Text="{Binding MiddleStart, Mode=TwoWay}"
+                materialDesign:HintAssist.Hint="Start Middle"
+                    Visibility="{Binding MembershipFunction, UpdateSourceTrigger=PropertyChanged,
+                    Converter={StaticResource MembershipToVisibilityConverter}, ConverterParameter={x:Static viewModel:MembershipEnum.TRAPEZOIDAL}}"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                        <TextBox
+                Margin="5" 
+                Text="{Binding Pick, Mode=TwoWay}"
+                materialDesign:HintAssist.Hint="Pick"
+                    Visibility="{Binding MembershipFunction, UpdateSourceTrigger=PropertyChanged,
+                    Converter={StaticResource MembershipToVisibilityConverter}, ConverterParameter={x:Static viewModel:MembershipEnum.TRIANGULAR}}"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                        <TextBox
+                Margin="5" 
+                Text="{Binding MiddleEnd, Mode=TwoWay}"
+                materialDesign:HintAssist.Hint="End Middle"
+                Visibility="{Binding MembershipFunction, UpdateSourceTrigger=PropertyChanged,
+                    Converter={StaticResource MembershipToVisibilityConverter}, ConverterParameter={x:Static viewModel:MembershipEnum.TRAPEZOIDAL}}"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                        <TextBox
+                Margin="5" 
+                Text="{Binding End, Mode=TwoWay}"
+                materialDesign:HintAssist.Hint="End"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                    </StackPanel>
+                </GroupBox>
+            </Border>
+
+        </Grid>
+        <Grid Grid.Row="1" VerticalAlignment="Stretch">
+            <lvc:CartesianChart Grid.Column="1" Margin="0 0 10 0" IsManipulationEnabled="False" DataTooltip="{x:Null}" Hoverable="False" DisableAnimations="True" Series="{Binding ChartSeries}"  LegendLocation="Right">
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis DisableAnimations="True"/>
+                </lvc:CartesianChart.AxisX>
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis DisableAnimations="True"/>
+                </lvc:CartesianChart.AxisY>
+            </lvc:CartesianChart>
+        </Grid>
     </Grid>
+
 </UserControl>

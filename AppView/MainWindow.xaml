@@ -13,7 +13,7 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
         xmlns:view="clr-namespace:AppView.View"
-        Title="MainWindow" Height="600" Width="1200">
+        Title="MainWindow" Height="700" Width="1200">
     <Grid>
         <Border Padding="5">
             <materialDesign:ColorZone             
@@ -50,7 +50,64 @@
                             TextElement.Foreground="{DynamicResource MaterialDesignBody}">
                             <TabItem.Header>
                                 <TextBlock  
-                                    Text ="Fuzzy Sets" 
+                                    Text ="Summarizers" 
+                                    TextWrapping="Wrap"/>
+                            </TabItem.Header>
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="4*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel 
+                                    Grid.Column="0"
+                                    Margin="10 0 0 0">
+                                    <GroupBox
+                                        Header="Manage Fuzzy Column"
+                                        Margin="5">
+                                        <ListBox 
+                                        Margin="5" 
+                                        ItemsSource="{Binding FuzzyColumns}"
+                                        SelectedItem="{Binding SelectedFuzzyColumn}"
+                                        MinHeight="300" 
+                                        MaxHeight="300">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Name}"/>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </GroupBox>
+                                    <Button 
+                                        Margin="5" 
+                                        Content="Load Empty from DB"                                    
+                                        Command="{Binding LoadColumnsCommand}"/>
+                                    <Button 
+                                        Margin="5" 
+                                        Content="Load Fuzzy Columns"                                    
+                                        Command="{Binding LoadFuzzyColumnsCommand}"/>
+                                    <Button 
+                                        Margin="5" 
+                                        Content="Save Fuzzy Columns" 
+                                        Command="{Binding SaveFuzzyColumnsCommand}"/>
+                                </StackPanel>
+                                <Grid 
+                                    
+                                    Visibility="{Binding IsSelected, 
+                                        Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    Grid.Column="1">
+                                    <view:FuzzyColumnMasterDetail 
+                                            DataContext="{Binding SelectedFuzzyColumn}"/>
+                                </Grid>
+                            </Grid>
+                        </TabItem>
+                        <!-- End Data loading -->
+
+                        <!-- Quantifiers -->
+                        <TabItem 
+                            TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+                            <TabItem.Header>
+                                <TextBlock  
+                                    Text ="Quantifiers" 
                                     TextWrapping="Wrap"/>
                             </TabItem.Header>
                             <Grid >
@@ -63,42 +120,212 @@
                                     Margin="10 0 0 0">
                                     <Button 
                                         Margin="5" 
-                                        Content="Load Fuzzy Columns"                                    
-                                        Command="{Binding LoadColumnsCommand}"/>
-                                    <TextBlock 
-                                            Margin="5 0" 
-                                            Text="Select Fuzzy Columns:"/>
-                                    <ListBox 
-                                        Margin="5" 
-                                        ItemsSource="{Binding FuzzyColumns}"
-                                        SelectedItem="{Binding SelectedFuzzyColumn}"
-                                        MinHeight="300" 
-                                        MaxHeight="300">
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <CheckBox 
-                                                        Content="{Binding Name}" 
-                                                        IsChecked="{Binding IsChecked}"/>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
+                                        Content="Save Quantifiers"                                    
+                                        Command="{Binding SaveQuantifiersCommand}"/>
                                     <Button 
                                         Margin="5" 
-                                        Content="Confirm" 
-                                        Command="{Binding ConfirmCommand}"/>
+                                        Content="Load Quantifiers"                                    
+                                        Command="{Binding LoadQuantifiersCommand}"/>
                                 </StackPanel>
-                                <StackPanel 
-                                    Visibility="{Binding IsSelected, 
-                                        Converter={StaticResource BooleanToVisibilityConverter}}"
+                                <Grid 
                                     Grid.Column="1">
                                     <view:FuzzyColumnMasterDetail 
-                                        DataContext="{Binding SelectedFuzzyColumn}"/>
+                                        DataContext="{Binding Quantifier}"/>
+                                </Grid>
+                            </Grid>
+                        </TabItem>
+                        <!-- End Quantifiers -->
+
+                        <!-- Summarization -->
+                        <TabItem 
+                            TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+                            <TabItem.Header>
+                                <TextBlock  
+                                    Text ="Summarization" 
+                                    TextWrapping="Wrap"/>
+                            </TabItem.Header>
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel 
+                                    Grid.Column="0"
+                                    Margin="10 0 0 0">
+                                    <GroupBox
+                                        Header="Quantifiers"
+                                        Margin="5">
+                                        <ListBox 
+                                        Margin="5" 
+                                        ItemsSource="{Binding Quantifiers}"
+                                        MinHeight="400" 
+                                        MaxHeight="400">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox 
+                                                    Content="{Binding Name}"
+                                                    IsChecked="{Binding IsChecked}"/>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </GroupBox>
+                                    <Button 
+                                        Margin="5" 
+                                        Content="Load"                                    
+                                        Command="{Binding LoadCommand}"/>
+                                    <Button 
+                                        Margin="5" 
+                                        Content="Summarize"                                    
+                                        Command="{Binding SummarizeCommand}"/>
+                                </StackPanel>
+                                <StackPanel 
+                                    Grid.Column="1">
+                                    <GroupBox
+                                        Header="Qualifiers"
+                                        Margin="5">
+                                        <ListBox 
+                                        Margin="5" 
+                                        ItemsSource="{Binding Qualifiers}"
+                                        MinHeight="400" 
+                                        MaxHeight="400">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Expander
+                                                        HorizontalAlignment="Stretch"
+                                                        Header="{Binding Name}">
+                                                        <ListBox 
+                                                         Margin="5" 
+                                                         ItemsSource="{Binding FuzzySets}"
+                                                         >
+                                                            <ListBox.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <CheckBox 
+                                                                    Content="{Binding Name}"
+                                                                    IsChecked="{Binding IsChecked}"/>
+                                                                </DataTemplate>
+                                                            </ListBox.ItemTemplate>
+                                                        </ListBox>
+                                                    </Expander>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </GroupBox>
+                                </StackPanel>
+                                <StackPanel 
+                                    Grid.Column="2">
+                                    <GroupBox
+                                        Header="Summarizers"
+                                        Margin="5">
+                                        <ListBox 
+                                        Margin="5" 
+                                        ItemsSource="{Binding Summarizers}"
+                                        MinHeight="400" 
+                                        MaxHeight="400">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Expander
+                                                        HorizontalAlignment="Stretch"
+                                                        Header="{Binding Name}">
+                                                        <ListBox 
+                                                         Margin="5" 
+                                                         ItemsSource="{Binding FuzzySets}"
+                                                         >
+                                                            <ListBox.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <CheckBox 
+                                                                    Content="{Binding Name}"
+                                                                    IsChecked="{Binding IsChecked}"/>
+                                                                </DataTemplate>
+                                                            </ListBox.ItemTemplate>
+                                                        </ListBox>
+                                                    </Expander>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </GroupBox>
+                                </StackPanel>
+                                <StackPanel Grid.Column="3">
+                                    <DataGrid
+                                      Margin="0 8 0 0"
+                                      ItemsSource="{Binding Results}"
+                                      CanUserSortColumns="True"
+                                      CanUserAddRows="False"
+                                      AutoGenerateColumns="False"
+                                      materialDesign:DataGridAssist.CellPadding="13 8 8 8"
+                                      materialDesign:DataGridAssist.ColumnHeaderPadding="8">            
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn
+                                              Binding="{Binding Summarization}"
+                                              Header="Summarization"
+                                              EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                            <DataGridTextColumn
+                                              Binding="{Binding Result.T}"
+                                              Header="T"
+                                               IsReadOnly="True"
+                                                />
+                                            <DataGridTextColumn
+                                              Binding="{Binding Result.T1}"
+                                              Header="T1"
+                                               IsReadOnly="True"
+                                                />
+                                            <DataGridTextColumn
+                                              Binding="{Binding Result.T2}"
+                                              Header="T2"
+                                               IsReadOnly="True"
+                                                />
+                                            <DataGridTextColumn
+                                              Binding="{Binding Result.T3}"
+                                              Header="T3"
+                                               IsReadOnly="True"
+                                                />
+                                            <DataGridTextColumn
+                                              Binding="{Binding Result.T4}"
+                                              Header="T4"
+                                               IsReadOnly="True"
+                                                />
+                                            <DataGridTextColumn
+                                              Binding="{Binding Result.T5}"
+                                              Header="T5"
+                                               IsReadOnly="True"
+                                                />
+                                            <DataGridTextColumn
+                                              Binding="{Binding Result.T6}"
+                                              Header="T6"
+                                               IsReadOnly="True"
+                                                />
+                                            <DataGridTextColumn
+                                              Binding="{Binding Result.T7}"
+                                              Header="T7"
+                                               IsReadOnly="True"
+                                                />
+                                            <DataGridTextColumn
+                                              Binding="{Binding Result.T8}"
+                                              Header="T8"
+                                               IsReadOnly="True"
+                                                />
+                                            <DataGridTextColumn
+                                              Binding="{Binding Result.T9}"
+                                              Header="T9"
+                                               IsReadOnly="True"
+                                                />
+                                            <DataGridTextColumn
+                                              Binding="{Binding Result.T10}"
+                                              Header="T10"
+                                               IsReadOnly="True"
+                                                />
+                                            <DataGridTextColumn
+                                              Binding="{Binding Result.T11}"
+                                              Header="T11"
+                                               IsReadOnly="True"
+                                                />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
                                 </StackPanel>
                             </Grid>
-
                         </TabItem>
-                        <!-- End Data loading -->
-
+                        <!-- End Summarization -->
 
                     </dragablz:TabablzControl>
                 </Grid>

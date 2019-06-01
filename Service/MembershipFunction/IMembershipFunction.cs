@@ -10,5 +10,7 @@ namespace Service.MembershipFunction
     {
         List<double> Parameters { get; set; }
         double CalculateMembership(double value);
+        double Support();
+        double Cardinality();
     }
 }
