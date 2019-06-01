@@ -20,6 +20,8 @@ namespace AppView.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
+
+        #region Properties
         private FuzzyColumnMDViewModel selectedFuzzyColumn;
 
         public ObservableCollection<FuzzyColumnMDViewModel> FuzzyColumns { get; set; }
@@ -39,6 +41,9 @@ namespace AppView.ViewModels
         public ObservableCollection<SummarizerParentViewModel> Summarizers { get; set; }
         public ObservableCollection<SummarizerParentViewModel> Qualifiers { get; set; }
         public ObservableCollection<ResultViewModel> Results { get; set; }
+        #endregion
+
+        #region Commands
         public ICommand LoadColumnsCommand { get; set; }
         public ICommand LoadFuzzyColumnsCommand { get; set; }
         public ICommand SaveFuzzyColumnsCommand { get; set; }
@@ -47,6 +52,9 @@ namespace AppView.ViewModels
 
         public ICommand SaveQuantifiersCommand { get; set; }
         public ICommand LoadQuantifiersCommand { get; set; }
+        #endregion
+
+        #region Constructor 
         public MainWindowViewModel()
         {
             FuzzyColumns = new ObservableCollection<FuzzyColumnMDViewModel>();
@@ -61,6 +69,9 @@ namespace AppView.ViewModels
             LoadQuantifiersCommand = new RelayCommand(LoadQuantifiers);
         }
 
+        #endregion
+
+        #region Serialization
         private void LoadQuantifiers()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -145,6 +156,8 @@ namespace AppView.ViewModels
             }
 
         }
+        #endregion
+
 
         private async void Summarize()
         {
@@ -162,7 +175,8 @@ namespace AppView.ViewModels
             });
         }
 
-        private async void Load()
+
+        private void Load()
         {
 
             Quantifiers = new ObservableCollection<FuzzySetViewModel>();
