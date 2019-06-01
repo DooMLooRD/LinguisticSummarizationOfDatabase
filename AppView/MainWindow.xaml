@@ -175,12 +175,21 @@
                                     </GroupBox>
                                     <Button 
                                         Margin="5" 
-                                        Content="Load"                                    
+                                        Content="Load"   
+                                        IsEnabled="{Binding !IsSummarizing}"
                                         Command="{Binding LoadCommand}"/>
                                     <Button 
                                         Margin="5" 
                                         Content="Summarize"                                    
                                         Command="{Binding SummarizeCommand}"/>
+                                    <StackPanel Orientation="Horizontal" Visibility="{Binding IsSummarizing,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <TextBlock Text="Summarizing..." Margin="5"/>
+                                        <ProgressBar
+                                        Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                        Value="0"
+                                        IsIndeterminate="True"/>
+                                    </StackPanel>
+                                    
                                 </StackPanel>
                                 <StackPanel 
                                     Grid.Column="1">
@@ -300,82 +309,86 @@
                                     </StackPanel>
                                   
                                 </StackPanel>
-                                <StackPanel Grid.Column="3">
-                                    <DataGrid
+                                <StackPanel Grid.Column="3"  >
+                                    <ScrollViewer HorizontalScrollBarVisibility="Auto"  MinHeight="450"
+                                        MaxHeight="450">
+                                        <DataGrid
                                       Margin="0 8 0 0"
                                       ItemsSource="{Binding Results}"
                                       CanUserSortColumns="True"
                                       CanUserAddRows="False"
                                       AutoGenerateColumns="False"
                                       materialDesign:DataGridAssist.CellPadding="13 8 8 8"
-                                      materialDesign:DataGridAssist.ColumnHeaderPadding="8">            
-                                        <DataGrid.Columns>
-                                            <DataGridTextColumn
+                                      materialDesign:DataGridAssist.ColumnHeaderPadding="8">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn
                                               Binding="{Binding Summarization}"
                                               Header="Summarization"
                                               EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
-                                            <DataGridTextColumn
+                                                <DataGridTextColumn
                                               Binding="{Binding Result.T}"
                                               Header="T"
                                                IsReadOnly="True"
                                                 />
-                                            <DataGridTextColumn
+                                                <DataGridTextColumn
                                               Binding="{Binding Result.T1}"
                                               Header="T1"
                                                IsReadOnly="True"
                                                 />
-                                            <DataGridTextColumn
+                                                <DataGridTextColumn
                                               Binding="{Binding Result.T2}"
                                               Header="T2"
                                                IsReadOnly="True"
                                                 />
-                                            <DataGridTextColumn
+                                                <DataGridTextColumn
                                               Binding="{Binding Result.T3}"
                                               Header="T3"
                                                IsReadOnly="True"
                                                 />
-                                            <DataGridTextColumn
+                                                <DataGridTextColumn
                                               Binding="{Binding Result.T4}"
                                               Header="T4"
                                                IsReadOnly="True"
                                                 />
-                                            <DataGridTextColumn
+                                                <DataGridTextColumn
                                               Binding="{Binding Result.T5}"
                                               Header="T5"
                                                IsReadOnly="True"
                                                 />
-                                            <DataGridTextColumn
+                                                <DataGridTextColumn
                                               Binding="{Binding Result.T6}"
                                               Header="T6"
                                                IsReadOnly="True"
                                                 />
-                                            <DataGridTextColumn
+                                                <DataGridTextColumn
                                               Binding="{Binding Result.T7}"
                                               Header="T7"
                                                IsReadOnly="True"
                                                 />
-                                            <DataGridTextColumn
+                                                <DataGridTextColumn
                                               Binding="{Binding Result.T8}"
                                               Header="T8"
                                                IsReadOnly="True"
                                                 />
-                                            <DataGridTextColumn
+                                                <DataGridTextColumn
                                               Binding="{Binding Result.T9}"
                                               Header="T9"
                                                IsReadOnly="True"
                                                 />
-                                            <DataGridTextColumn
+                                                <DataGridTextColumn
                                               Binding="{Binding Result.T10}"
                                               Header="T10"
                                                IsReadOnly="True"
                                                 />
-                                            <DataGridTextColumn
+                                                <DataGridTextColumn
                                               Binding="{Binding Result.T11}"
                                               Header="T11"
                                                IsReadOnly="True"
                                                 />
-                                        </DataGrid.Columns>
-                                    </DataGrid>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </ScrollViewer>
+                                  
                                 </StackPanel>
                             </Grid>
                         </TabItem>

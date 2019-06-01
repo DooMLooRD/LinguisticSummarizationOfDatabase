@@ -28,26 +28,27 @@ namespace Service
 
         public void CalculateResult(LinguisticSummarization summarization)
         {
-            T1 = CalculateT1(summarization);
-            T2 = CalculateT2(summarization);
-            T3 = CalculateT3(summarization);
-            T4 = CalculateT4(summarization);
-            T5 = CalculateT5(summarization);
-            T6 = CalculateT6(summarization);
-            T7 = CalculateT7(summarization);
-            T8 = CalculateT8(summarization);
+            T1 = Math.Round(CalculateT1(summarization), 2);
+            T2 = Math.Round(CalculateT2(summarization), 2);
+            T3 = Math.Round(CalculateT3(summarization), 2);
+            T4 = Math.Round(CalculateT4(summarization), 2);
+            T5 = Math.Round(CalculateT5(summarization), 2);
+            T6 = Math.Round(CalculateT6(summarization), 2);
+            T7 = Math.Round(CalculateT7(summarization), 2);
+            T8 = Math.Round(CalculateT8(summarization), 2);
 
             if (summarization.Qualifiers.Count > 0)
             {
-                T9 = CalculateT9(summarization);
-                T10 = CalculateT10(summarization);
-                T11 = CalculateT11(summarization);
+                T9 = Math.Round(CalculateT9(summarization), 2);
+                T10 = Math.Round(CalculateT10(summarization), 2);
+                T11 = Math.Round(CalculateT11(summarization), 2);
                 T = (T1 + T2 + T3 + T4 + T5 + T6 + T7 + T8 + T9 + T10 + T11) / 11.0;
             }
             else
             {
                 T = (T1 + T2 + T3 + T4 + T5 + T6 + T7 + T8) / 8.0;
             }
+            T = Math.Round(T, 2);
 
         }
         public double CalculateT1(LinguisticSummarization summarization)

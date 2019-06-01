@@ -20,42 +20,48 @@ namespace Service
 
         public string GenerateSummarization()
         {
-            string result = Quantifier.Label + " days";
+            StringBuilder result = new StringBuilder(Quantifier.Label);
+            result.Append(" days");
 
             if (Qualifiers.Count > 0)
             {
-                result += " being/having " + Qualifiers[0].Label;
+                result.Append(" being/having ");
+                result.Append(Qualifiers[0].Label);
+                result.Append(" ");
+                result.Append(Qualifiers[0].ColumnName);
 
                 for (int i = 1; i < Qualifiers.Count; i++)
                 {
                     if (OperationQualifier == Operation.And)
-                    {
-                        result += " and  " + Qualifiers[i].Label;
-                    }
+                        result.Append(" and  ");
                     else
-                    {
-                        result += " or " + Qualifiers[i].Label;
-                    }
+                        result.Append(" or  ");
+
+                    result.Append(Qualifiers[i].Label);
+                    result.Append(" ");
+                    result.Append(Qualifiers[i].ColumnName);
                 }
 
             }
 
-            result += " are/have " + Summarizers[0].Label;
+            result.Append(" are/have ");
+            result.Append(Summarizers[0].Label);
+            result.Append(" ");
+            result.Append(Summarizers[0].ColumnName);
 
             for (int i = 1; i < Summarizers.Count; i++)
             {
                 if (OperationSummarizer == Operation.And)
-                {
-                    result += " and  " + Summarizers[i].Label;
-                }
+                    result.Append(" and  ");
                 else
-                {
-                    result += " or " + Summarizers[i].Label;
-                }
+                    result.Append(" or  ");
+                result.Append(Summarizers[i].Label);
+                result.Append(" ");
+                result.Append(Summarizers[i].ColumnName);
+
             }
 
-
-            return result;
+            return result.ToString();
         }
 
 
@@ -64,8 +70,8 @@ namespace Service
 
     public enum Operation
     {
+        None,
         And,
         Or,
-        None
     }
 }

@@ -50,6 +50,7 @@ namespace AppView.ViewModels
         public bool OrSummarizers { get; set; }
         public bool AndQualifiers { get; set; }
         public bool OrQualifiers { get; set; }
+        public bool IsSummarizing { get; set; }
         #endregion
 
         #region Commands
@@ -172,6 +173,7 @@ namespace AppView.ViewModels
         {
             await Task.Run(() =>
             {
+                IsSummarizing = true;
                 List<Quantifier> quantifiers = Quantifiers.Where(c => c.IsChecked).Select(c => (Quantifier)c.FuzzySet).ToList();
                 List<Qualifier> qualifiers = Qualifiers.SelectMany(c => c.FuzzySets.Where(d => d.IsChecked).Select(d => (Qualifier)d.FuzzySet)).ToList();
                 List<Summarizer> summarizers = Summarizers.SelectMany(c => c.FuzzySets.Where(d => d.IsChecked).Select(d => (Summarizer)d.FuzzySet)).ToList();
@@ -194,16 +196,17 @@ namespace AppView.ViewModels
                     Qualifiers = qualifiers,
                     QualifiersMinNumber = MinQualifiers,
                     QualifiersMaxNumber = MaxQualifiers,
-                    QualifierOperations=qualifiersOperation,
+                    QualifierOperations = qualifiersOperation,
                     Summarizers = summarizers,
                     SummarizersMinNumber = MinSummarizers,
                     SummarizersMaxNumber = MaxSummarizers,
-                    SummarizerOperations=summarizersOperation,
+                    SummarizerOperations = summarizersOperation,
                     Data = data
                 };
                 var summarization = service.Summarize();
 
                 Results = new ObservableCollection<ResultViewModel>(summarization.Select(c => new ResultViewModel() { Summarization = c.Item1, Result = c.Item2 }));
+                IsSummarizing = false;
             });
         }
 

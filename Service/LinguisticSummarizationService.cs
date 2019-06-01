@@ -28,6 +28,19 @@ namespace Service
 
         public List<(string, Result)> Summarize()
         {
+            if (Qualifiers.Count > 1 && QualifierOperations.Count == 0)
+            {
+                QualifierOperations.Add(Operation.Or);
+            }
+            if (Summarizers.Count > 1 && SummarizerOperations.Count == 0)
+            {
+                SummarizerOperations.Add(Operation.Or);
+            }
+            if(Qualifiers.Count==0)
+            {
+                QualifiersMinNumber = 0;
+                QualifiersMaxNumber = 0;
+            }
             List<(string, Result)> summarizations = new List<(string, Result)>();
             List<List<Summarizer>> summarizersCombinations = GenerateSummarizers();
             List<List<Qualifier>> qualifierCombinations = GenerateQualifiers();
@@ -81,9 +94,9 @@ namespace Service
         {
             List<List<Summarizer>> summarizersCombinations = new List<List<Summarizer>>();
             Stack<int> combinations = new Stack<int>();
-            for (int i = SummarizersMinNumber; i <= Summarizers.Count; i++)
+            for (int i = SummarizersMinNumber; i <= SummarizersMaxNumber; i++)
             {
-                NextCombination(combinations, i, SummarizersMaxNumber, 1, summarizersCombinations);
+                NextCombination(combinations, i, Summarizers.Count, 1, summarizersCombinations);
             }
             return summarizersCombinations;
         }
@@ -110,9 +123,9 @@ namespace Service
         {
             List<List<Qualifier>> qualifierCombinations = new List<List<Qualifier>>();
             Stack<int> combinations = new Stack<int>();
-            for (int i = QualifiersMinNumber; i <= Qualifiers.Count; i++)
+            for (int i = QualifiersMinNumber; i <= QualifiersMaxNumber; i++)
             {
-                NextCombinationQualifier(combinations, i, QualifiersMaxNumber, 1, qualifierCombinations);
+                NextCombinationQualifier(combinations, i, Qualifiers.Count, 1, qualifierCombinations);
             }
             return qualifierCombinations;
         }
