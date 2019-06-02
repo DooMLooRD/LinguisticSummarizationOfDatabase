@@ -51,6 +51,7 @@ namespace AppView.ViewModels
         public bool AndQualifiers { get; set; }
         public bool OrQualifiers { get; set; }
         public bool IsSummarizing { get; set; }
+        public bool LaTeXMode { get; set; }
         #endregion
 
         #region Commands
@@ -59,7 +60,7 @@ namespace AppView.ViewModels
         public ICommand SaveFuzzyColumnsCommand { get; set; }
         public ICommand LoadCommand { get; set; }
         public ICommand SummarizeCommand { get; set; }
-
+        public ICommand SaveResultCommand { get; set; }
         public ICommand SaveQuantifiersCommand { get; set; }
         public ICommand LoadQuantifiersCommand { get; set; }
         #endregion
@@ -77,8 +78,8 @@ namespace AppView.ViewModels
             LoadFuzzyColumnsCommand = new RelayCommand(LoadFuzzyColumns);
             SaveQuantifiersCommand = new RelayCommand(SaveQuantifiers);
             LoadQuantifiersCommand = new RelayCommand(LoadQuantifiers);
+            SaveResultCommand = new RelayCommand(SaveResult);
         }
-
         #endregion
 
         #region Serialization
@@ -168,6 +169,21 @@ namespace AppView.ViewModels
         }
         #endregion
 
+        private async void SaveResult()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            {
+                Filter = "Text File(*.txt)| *.txt",
+                RestoreDirectory = true
+            };
+            saveFileDialog.ShowDialog();
+            if (saveFileDialog.FileName.Length == 0)
+            {
+                MessageBox.Show("No files selected");
+                return;
+            }
+            await ResultWrtier.WriteToFile(Results.Select(c => (c.Summarization, c.Result)).ToList(), saveFileDialog.FileName, LaTeXMode);
+        }
 
         private async void Summarize()
         {

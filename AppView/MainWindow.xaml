@@ -310,10 +310,10 @@
                                   
                                 </StackPanel>
                                 <StackPanel Grid.Column="3"  >
-                                    <ScrollViewer HorizontalScrollBarVisibility="Auto"  MinHeight="450"
+                                    <ScrollViewer Margin="5" HorizontalScrollBarVisibility="Auto"  MinHeight="450"
                                         MaxHeight="450">
                                         <DataGrid
-                                      Margin="0 8 0 0"
+                                      Margin="5"
                                       ItemsSource="{Binding Results}"
                                       CanUserSortColumns="True"
                                       CanUserAddRows="False"
@@ -388,7 +388,14 @@
                                             </DataGrid.Columns>
                                         </DataGrid>
                                     </ScrollViewer>
-                                  
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button 
+                                        Margin="10" 
+                                        Content="Save Result To File"                                    
+                                        Command="{Binding SaveResultCommand}"/>
+                                        <CheckBox Margin="10" Content="LaTeX Mode" IsChecked="{Binding LaTeXMode}"></CheckBox>
+                                    </StackPanel>
+                                    
                                 </StackPanel>
                             </Grid>
                         </TabItem>

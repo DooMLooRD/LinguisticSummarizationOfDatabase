@@ -21,18 +21,26 @@ namespace Service.Sets
             return MembershipFunction.CalculateMembership(value);
         }
 
+        public double Not(double value)
+        {
+            return 1 - MembershipFunction.CalculateMembership(value);
+        }
+
         public double X()
         {
             return Math.Abs(Xmax - Xmin);
         }
+
         public double Supp()
         {
             return MembershipFunction.Support();
         }
+
         public double Cardinality()
         {
             return MembershipFunction.Cardinality();
         }
+
         public double In()
         {
             return Supp() / X();
