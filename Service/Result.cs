@@ -52,7 +52,7 @@ namespace Service
             T = Math.Round(T, 2);
 
         }
-        public double CalculateT1(LinguisticSummarization summarization)
+        private double CalculateT1(LinguisticSummarization summarization)
         {
             _summarizerMemberships = new List<double>();
             _qualifierMemberships = new List<double>();
@@ -108,7 +108,7 @@ namespace Service
                 return summarization.Quantifier.CalculateMembership(r / summarization.Data.Count);
             }
         }
-        public double CalculateT2(LinguisticSummarization summarization)
+        private double CalculateT2(LinguisticSummarization summarization)
         {
             double mulS = 1.0;
             foreach (var summarizer in summarization.Summarizers)
@@ -117,7 +117,7 @@ namespace Service
             }
             return 1 - Math.Pow(mulS, 1.0 / summarization.Summarizers.Count);
         }
-        public double CalculateT3(LinguisticSummarization summarization)
+        private double CalculateT3(LinguisticSummarization summarization)
         {
             double sumT = 0.0;
             double sumH = 0.0;
@@ -130,7 +130,7 @@ namespace Service
                 return sumT / sumH;
             return 0;
         }
-        public double CalculateT4(LinguisticSummarization summarization)
+        private double CalculateT4(LinguisticSummarization summarization)
         {
             double mulS = 1.0;
             foreach (var summarizer in summarization.Summarizers)
@@ -144,20 +144,20 @@ namespace Service
             }
             return Math.Abs(mulS - T3);
         }
-        public double CalculateT5(LinguisticSummarization summarization)
+        private double CalculateT5(LinguisticSummarization summarization)
         {
             return 2 * Math.Pow(1.0 / 2.0, summarization.Summarizers.Count);
         }
-        public double CalculateT6(LinguisticSummarization summarization)
+        private double CalculateT6(LinguisticSummarization summarization)
         {
             return 1 - summarization.Quantifier.Supp();
         }
-        public double CalculateT7(LinguisticSummarization summarization)
+        private double CalculateT7(LinguisticSummarization summarization)
         {
             return 1 - summarization.Quantifier.Cardinality();
         }
 
-        public double CalculateT8(LinguisticSummarization summarization)
+        private double CalculateT8(LinguisticSummarization summarization)
         {
             double mulS = 1;
             foreach (var summarizer in summarization.Summarizers)
@@ -167,7 +167,7 @@ namespace Service
             return 1 - Math.Pow(mulS, 1.0 / summarization.Summarizers.Count);
 
         }
-        public double CalculateT9(LinguisticSummarization summarization)
+        private double CalculateT9(LinguisticSummarization summarization)
         {
             double mulW = 1;
             foreach (var qualifier in summarization.Qualifiers)
@@ -176,7 +176,7 @@ namespace Service
             }
             return 1 - Math.Pow(mulW, 1.0 / summarization.Qualifiers.Count);
         }
-        public double CalculateT10(LinguisticSummarization summarization)
+        private double CalculateT10(LinguisticSummarization summarization)
         {
             double mulW = 1;
             foreach (var qualifier in summarization.Qualifiers)
@@ -185,7 +185,7 @@ namespace Service
             }
             return 1 - Math.Pow(mulW, 1.0 / summarization.Qualifiers.Count);
         }
-        public double CalculateT11(LinguisticSummarization summarization)
+        private double CalculateT11(LinguisticSummarization summarization)
         {
             return 2 * Math.Pow(1.0 / 2.0, summarization.Qualifiers.Count);
         }

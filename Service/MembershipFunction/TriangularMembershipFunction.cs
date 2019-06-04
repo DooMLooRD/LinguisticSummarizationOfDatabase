@@ -36,7 +36,7 @@ namespace Service.MembershipFunction
 
         public double Cardinality()
         {
-            return Math.Abs(Parameters[2] - Parameters[0]);
+            return Math.Abs(Parameters[2] - Parameters[0]) / 2.0;
         }
     }
 }
