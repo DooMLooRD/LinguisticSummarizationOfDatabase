@@ -46,37 +46,77 @@ namespace Service
             List<List<Qualifier>> qualifierCombinations = GenerateQualifiers();
             foreach (var quantifier in Quantifiers)
             {
-                foreach (var qualifierCombination in qualifierCombinations)
+                if(quantifier.ColumnName=="Quantifier Absolute")
                 {
-                    foreach (var summarizersCombination in summarizersCombinations)
+                    foreach (var qualifierCombination in qualifierCombinations)
                     {
-                        if (qualifierCombination.Count > 1)
+                        foreach (var summarizersCombination in summarizersCombinations)
                         {
-                            foreach (var qualifierOperation in QualifierOperations)
+                            if (qualifierCombination.Count > 1)
+                            {
+                                foreach (var qualifierOperation in QualifierOperations)
+                                {
+                                    if (summarizersCombination.Count > 1)
+                                    {
+                                        foreach (var operation in SummarizerOperations)
+                                        {
+                                            Summarizations.Add(new LinguisticSummarization() { IsAbsolute = true, Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, OperationQualifier = qualifierOperation, OperationSummarizer = operation });
+                                        }
+                                    }
+                                    else
+                                        Summarizations.Add(new LinguisticSummarization() { IsAbsolute = true, Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, OperationQualifier = qualifierOperation, OperationSummarizer = Operation.None });
+                                }
+
+                            }
+                            else
                             {
                                 if (summarizersCombination.Count > 1)
                                 {
                                     foreach (var operation in SummarizerOperations)
                                     {
-                                        Summarizations.Add(new LinguisticSummarization() { Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, OperationQualifier = qualifierOperation, OperationSummarizer = operation });
+                                        Summarizations.Add(new LinguisticSummarization() { IsAbsolute = true, Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, OperationQualifier = Operation.None, OperationSummarizer = operation });
                                     }
                                 }
                                 else
-                                    Summarizations.Add(new LinguisticSummarization() { Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, OperationQualifier = qualifierOperation, OperationSummarizer = Operation.None });
+                                    Summarizations.Add(new LinguisticSummarization() { IsAbsolute = true, Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, OperationQualifier = Operation.None, OperationSummarizer = Operation.None });
                             }
-
                         }
-                        else
+                    }
+                }
+                else
+                {
+                    foreach (var qualifierCombination in qualifierCombinations)
+                    {
+                        foreach (var summarizersCombination in summarizersCombinations)
                         {
-                            if (summarizersCombination.Count > 1)
+                            if (qualifierCombination.Count > 1)
                             {
-                                foreach (var operation in SummarizerOperations)
+                                foreach (var qualifierOperation in QualifierOperations)
                                 {
-                                    Summarizations.Add(new LinguisticSummarization() { Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, OperationQualifier = Operation.None, OperationSummarizer = operation });
+                                    if (summarizersCombination.Count > 1)
+                                    {
+                                        foreach (var operation in SummarizerOperations)
+                                        {
+                                            Summarizations.Add(new LinguisticSummarization() {IsAbsolute=false, Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, OperationQualifier = qualifierOperation, OperationSummarizer = operation });
+                                        }
+                                    }
+                                    else
+                                        Summarizations.Add(new LinguisticSummarization() { IsAbsolute = false, Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, OperationQualifier = qualifierOperation, OperationSummarizer = Operation.None });
                                 }
+
                             }
                             else
-                                Summarizations.Add(new LinguisticSummarization() { Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, OperationQualifier = Operation.None, OperationSummarizer = Operation.None });
+                            {
+                                if (summarizersCombination.Count > 1)
+                                {
+                                    foreach (var operation in SummarizerOperations)
+                                    {
+                                        Summarizations.Add(new LinguisticSummarization() { IsAbsolute = false, Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, OperationQualifier = Operation.None, OperationSummarizer = operation });
+                                    }
+                                }
+                                else
+                                    Summarizations.Add(new LinguisticSummarization() { IsAbsolute = false, Quantifier = quantifier, Qualifiers = qualifierCombination, Summarizers = summarizersCombination, Data = Data, OperationQualifier = Operation.None, OperationSummarizer = Operation.None });
+                            }
                         }
                     }
                 }

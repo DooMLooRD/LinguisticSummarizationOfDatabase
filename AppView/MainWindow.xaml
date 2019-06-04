@@ -100,6 +100,26 @@
                                 <StackPanel 
                                     Grid.Column="0"
                                     Margin="10 0 0 0">
+                                    <GroupBox
+                                        Header="Manage Quantifiers"
+                                        Margin="5">
+                                        <ListBox 
+                                        Margin="5" 
+                                        ItemsSource="{Binding QuantifierTypes}"
+                                        SelectedItem="{Binding QuantifierType}"
+                                        MinHeight="300" 
+                                        MaxHeight="300">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Name}"/>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </GroupBox>
+                                    <Button 
+                                        Margin="5" 
+                                        Content="Load Empty Quantifiers"                                    
+                                        Command="{Binding LoadEmptyQuantifiersCommand}"/>
                                     <Button 
                                         Margin="5" 
                                         Content="Save Quantifiers"                                    
@@ -112,7 +132,7 @@
                                 <Grid 
                                     Grid.Column="1">
                                     <view:FuzzyColumnMasterDetail 
-                                        DataContext="{Binding Quantifier}"/>
+                                        DataContext="{Binding QuantifierType}"/>
                                 </Grid>
                             </Grid>
                         </TabItem>
@@ -141,19 +161,33 @@
                                         MinHeight="450"
                                         MaxHeight="450"
                                         Margin="5">
-                                        <ListBox 
+                                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                            <ItemsControl 
                                         Margin="5" 
                                         ItemsSource="{Binding Quantifiers}"
-                                         
                                         >
-                                            <ListBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <CheckBox 
-                                                    Content="{Binding Name}"
-                                                    IsChecked="{Binding IsChecked}"/>
-                                                </DataTemplate>
-                                            </ListBox.ItemTemplate>
-                                        </ListBox>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Expander
+                                                        HorizontalAlignment="Stretch"
+                                                        Header="{Binding Name}">
+                                                            <ListBox 
+                                                         Margin="5" 
+                                                         ItemsSource="{Binding FuzzySets}"
+                                                         >
+                                                                <ListBox.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <CheckBox 
+                                                                    Content="{Binding Name}"
+                                                                    IsChecked="{Binding IsChecked}"/>
+                                                                    </DataTemplate>
+                                                                </ListBox.ItemTemplate>
+                                                            </ListBox>
+                                                        </Expander>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </ScrollViewer>
                                     </GroupBox>
                                     <Button 
                                         Margin="5" 

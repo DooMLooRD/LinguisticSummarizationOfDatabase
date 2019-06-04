@@ -17,6 +17,7 @@ namespace Service
         public Operation OperationQualifier { get; set; }
         public Operation OperationSummarizer { get; set; }
         public List<Model> Data { get; set; }
+        public bool IsAbsolute { get; set; }
 
         public string GenerateSummarization()
         {

@@ -34,11 +34,13 @@ namespace AppView.ViewModels
                 IsSelected = true;
             }
         }
-        public FuzzyColumnMDViewModel Quantifier { get; set; }
         public bool IsSelected { get; set; } = false;
 
-        public ObservableCollection<FuzzySetViewModel> Quantifiers { get; set; }
+        public ObservableCollection<FuzzyColumnMDViewModel> QuantifierTypes { get; set; }
+        public FuzzyColumnMDViewModel QuantifierType { get; set; }
+
         public ObservableCollection<SummarizerParentViewModel> Summarizers { get; set; }
+        public ObservableCollection<SummarizerParentViewModel> Quantifiers { get; set; }
         public ObservableCollection<SummarizerParentViewModel> Qualifiers { get; set; }
         public ObservableCollection<ResultViewModel> Results { get; set; }
 
@@ -70,7 +72,7 @@ namespace AppView.ViewModels
         {
             FuzzyColumns = new ObservableCollection<FuzzyColumnMDViewModel>();
             Results = new ObservableCollection<ResultViewModel>();
-            Quantifier = new FuzzyColumnMDViewModel() { Min = 0, Max = 1, Name = "Quantifier" };
+            QuantifierTypes= new ObservableCollection<FuzzyColumnMDViewModel>() { new FuzzyColumnMDViewModel() { Min = 0, Max = 1, Name = "Quantifier" }, new FuzzyColumnMDViewModel() { Min = 0, Max = 56420, Name = "Quantifier Absolute" } };
             LoadColumnsCommand = new RelayCommand(LoadColumns);
             LoadCommand = new RelayCommand(Load);
             SummarizeCommand = new RelayCommand(Summarize);
@@ -100,7 +102,7 @@ namespace AppView.ViewModels
             {
                 JsonSerializer serializer = new JsonSerializer();
                 serializer.TypeNameHandling = TypeNameHandling.All;
-                Quantifier = (FuzzyColumnMDViewModel)serializer.Deserialize(file, typeof(FuzzyColumnMDViewModel));
+                QuantifierTypes = (ObservableCollection<FuzzyColumnMDViewModel>)serializer.Deserialize(file, typeof(ObservableCollection<FuzzyColumnMDViewModel>));
             }
         }
 
@@ -121,7 +123,7 @@ namespace AppView.ViewModels
             {
                 JsonSerializer serializer = new JsonSerializer();
                 serializer.TypeNameHandling = TypeNameHandling.All;
-                serializer.Serialize(file, Quantifier);
+                serializer.Serialize(file, QuantifierTypes);
             }
         }
 
@@ -190,7 +192,7 @@ namespace AppView.ViewModels
             await Task.Run(() =>
             {
                 IsSummarizing = true;
-                List<Quantifier> quantifiers = Quantifiers.Where(c => c.IsChecked).Select(c => (Quantifier)c.FuzzySet).ToList();
+                List<Quantifier> quantifiers = Quantifiers.SelectMany( d=> d.FuzzySets.Where(c => c.IsChecked).Select(c => (Quantifier)c.FuzzySet)).ToList();
                 List<Qualifier> qualifiers = Qualifiers.SelectMany(c => c.FuzzySets.Where(d => d.IsChecked).Select(d => (Qualifier)d.FuzzySet)).ToList();
                 List<Summarizer> summarizers = Summarizers.SelectMany(c => c.FuzzySets.Where(d => d.IsChecked).Select(d => (Summarizer)d.FuzzySet)).ToList();
                 DataLoader loader = new DataLoader();
@@ -230,19 +232,29 @@ namespace AppView.ViewModels
         private void Load()
         {
 
-            Quantifiers = new ObservableCollection<FuzzySetViewModel>();
+            Quantifiers = new ObservableCollection<SummarizerParentViewModel>();
             Qualifiers = new ObservableCollection<SummarizerParentViewModel>();
             Summarizers = new ObservableCollection<SummarizerParentViewModel>();
-            foreach (var fuzzySet in Quantifier.FuzzySets)
+            foreach (var quantifier in QuantifierTypes)
             {
-                FuzzySet set = new Quantifier();
-                set.Label = fuzzySet.Name;
-                if (fuzzySet.MembershipFunction.GetType() == typeof(TriangularMembershipFunction))
-                    set.MembershipFunction = new TriangularMembershipFunction() { Parameters = new List<double> { fuzzySet.Start, fuzzySet.Pick, fuzzySet.End } };
-                else
-                    set.MembershipFunction = new TrapezoidalMembershipFunction() { Parameters = new List<double> { fuzzySet.Start, fuzzySet.MiddleStart, fuzzySet.MiddleEnd, fuzzySet.End } };
-                Quantifiers.Add(new FuzzySetViewModel() { IsChecked = false, Name = fuzzySet.Name, FuzzySet = set });
+                List<FuzzySetViewModel> quantifiers = new List<FuzzySetViewModel>();
+
+                foreach (var fuzzySet in quantifier.FuzzySets)
+                {
+                    FuzzySet set = new Quantifier();
+                    set.Label = fuzzySet.Name;
+                    set.ColumnName = quantifier.Name;
+                    set.Xmax = quantifier.Max;
+                    set.Xmin = quantifier.Min;
+                    if (fuzzySet.MembershipFunction.GetType() == typeof(TriangularMembershipFunction))
+                        set.MembershipFunction = new TriangularMembershipFunction() { Parameters = new List<double> { fuzzySet.Start, fuzzySet.Pick, fuzzySet.End } };
+                    else
+                        set.MembershipFunction = new TrapezoidalMembershipFunction() { Parameters = new List<double> { fuzzySet.Start, fuzzySet.MiddleStart, fuzzySet.MiddleEnd, fuzzySet.End } };
+                    quantifiers.Add(new FuzzySetViewModel() { IsChecked = false, Name = fuzzySet.Name, FuzzySet = set });
+                }
+                Quantifiers.Add(new SummarizerParentViewModel() { Name = quantifier.Name, FuzzySets = quantifiers });
             }
+          
             foreach (var fuzzyColumn in FuzzyColumns)
             {
                 List<FuzzySetViewModel> summarizers = new List<FuzzySetViewModel>();

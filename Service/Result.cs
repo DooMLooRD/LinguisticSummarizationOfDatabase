@@ -84,7 +84,7 @@ namespace Service
                     sumW += w;
                 }
                 double r = sumSW / sumW;
-                return summarization.Quantifier.CalculateMembership(r / summarization.Data.Count);
+                return summarization.Quantifier.CalculateMembership(r);
             }
             else
             {
@@ -105,7 +105,14 @@ namespace Service
                     sumS += s;
                 }
                 double r = sumS;
-                return summarization.Quantifier.CalculateMembership(r / summarization.Data.Count);
+                if (summarization.IsAbsolute)
+                {
+                    return summarization.Quantifier.CalculateMembership(r);
+                }
+                else
+                {
+                    return summarization.Quantifier.CalculateMembership(r / summarization.Data.Count);
+                }
             }
         }
         private double CalculateT2(LinguisticSummarization summarization)
@@ -150,11 +157,11 @@ namespace Service
         }
         private double CalculateT6(LinguisticSummarization summarization)
         {
-            return 1 - summarization.Quantifier.Supp();
+            return 1 - (summarization.Quantifier.Supp() / summarization.Quantifier.X());
         }
         private double CalculateT7(LinguisticSummarization summarization)
         {
-            return 1 - summarization.Quantifier.Cardinality();
+            return 1 - (summarization.Quantifier.Cardinality() / summarization.Quantifier.X());
         }
 
         private double CalculateT8(LinguisticSummarization summarization)

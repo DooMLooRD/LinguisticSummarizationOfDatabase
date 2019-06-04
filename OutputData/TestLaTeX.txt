@@ -3,15 +3,15 @@
 \begin{tabular}{|M{9cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|}
 \hline
 Podsumowanie & $T$ & $T_1$ & $T_2$ & $T_3$ & $T_4$ & $T_5$ & $T_6$ & $T_7$ & $T_8$ & $T_9$ & $T_{10}$ & $T_{11}$ \\ \hline
-Most days are/have Hot MinTemp or  Warm MinTemp or  Medium MinTemp or  Cold MinTemp or  Very Cold MinTemp & 0,74 & 0,51 & 0,82 & 1 & 1 & 0,06 & 0,92 & 0,85 & 0,72 & 0 & 0 & 0\\ \hline
-Almost none days are/have Hot MinTemp or  Warm MinTemp or  Medium MinTemp or  Cold MinTemp or  Very Cold MinTemp & 0,68 & 0 & 0,82 & 1 & 1 & 0,06 & 0,92 & 0,9 & 0,72 & 0 & 0 & 0\\ \hline
-Few days are/have Hot MinTemp or  Warm MinTemp or  Medium MinTemp or  Cold MinTemp or  Very Cold MinTemp & 0,67 & 0 & 0,82 & 1 & 1 & 0,06 & 0,92 & 0,85 & 0,72 & 0 & 0 & 0\\ \hline
-Not many days are/have Hot MinTemp or  Warm MinTemp or  Medium MinTemp or  Cold MinTemp or  Very Cold MinTemp & 0,67 & 0 & 0,82 & 1 & 1 & 0,06 & 0,92 & 0,85 & 0,72 & 0 & 0 & 0\\ \hline
-Many days are/have Hot MinTemp or  Warm MinTemp or  Medium MinTemp or  Cold MinTemp or  Very Cold MinTemp & 0,67 & 0 & 0,82 & 1 & 1 & 0,06 & 0,9 & 0,85 & 0,72 & 0 & 0 & 0\\ \hline
-Nearly all days are/have Hot MinTemp or  Warm MinTemp or  Medium MinTemp or  Cold MinTemp or  Very Cold MinTemp & 0,67 & 0 & 0,82 & 1 & 1 & 0,06 & 0,9 & 0,85 & 0,72 & 0 & 0 & 0\\ \hline
-Some days are/have Hot MinTemp or  Warm MinTemp or  Medium MinTemp or  Cold MinTemp or  Very Cold MinTemp & 0,66 & 0 & 0,82 & 1 & 1 & 0,06 & 0,88 & 0,8 & 0,72 & 0 & 0 & 0\\ \hline
-About a half days are/have Hot MinTemp or  Warm MinTemp or  Medium MinTemp or  Cold MinTemp or  Very Cold MinTemp & 0,66 & 0 & 0,82 & 1 & 1 & 0,06 & 0,9 & 0,8 & 0,72 & 0 & 0 & 0\\ \hline
-A little more than half days are/have Hot MinTemp or  Warm MinTemp or  Medium MinTemp or  Cold MinTemp or  Very Cold MinTemp & 0,66 & 0 & 0,82 & 1 & 1 & 0,06 & 0,9 & 0,8 & 0,72 & 0 & 0 & 0\\ \hline
+Almost none days being/having Cold MinTemp are/have Warm MinTemp & 0,78 & 1 & 0,84 & 0 & 0,4 & 1 & 0,92 & 0,92 & 0,84 & 0,84 & 0,84 & 1\\ \hline
+Few days being/having Cold MinTemp are/have Warm MinTemp & 0,69 & 0 & 0,84 & 0 & 0,4 & 1 & 0,92 & 0,92 & 0,84 & 0,84 & 0,84 & 1\\ \hline
+Not many days being/having Cold MinTemp are/have Warm MinTemp & 0,69 & 0 & 0,84 & 0 & 0,4 & 1 & 0,92 & 0,92 & 0,84 & 0,84 & 0,84 & 1\\ \hline
+About a half days being/having Cold MinTemp are/have Warm MinTemp & 0,69 & 0 & 0,84 & 0 & 0,4 & 1 & 0,9 & 0,9 & 0,84 & 0,84 & 0,84 & 1\\ \hline
+A little more than half days being/having Cold MinTemp are/have Warm MinTemp & 0,69 & 0 & 0,84 & 0 & 0,4 & 1 & 0,9 & 0,9 & 0,84 & 0,84 & 0,84 & 1\\ \hline
+Many days being/having Cold MinTemp are/have Warm MinTemp & 0,69 & 0 & 0,84 & 0 & 0,4 & 1 & 0,9 & 0,9 & 0,84 & 0,84 & 0,84 & 1\\ \hline
+Most days being/having Cold MinTemp are/have Warm MinTemp & 0,69 & 0 & 0,84 & 0 & 0,4 & 1 & 0,92 & 0,92 & 0,84 & 0,84 & 0,84 & 1\\ \hline
+Nearly all days being/having Cold MinTemp are/have Warm MinTemp & 0,69 & 0 & 0,84 & 0 & 0,4 & 1 & 0,9 & 0,9 & 0,84 & 0,84 & 0,84 & 1\\ \hline
+Some days being/having Cold MinTemp are/have Warm MinTemp & 0,68 & 0 & 0,84 & 0 & 0,4 & 1 & 0,88 & 0,88 & 0,84 & 0,84 & 0,84 & 1\\ \hline
 \end{tabular}
 \caption{Sth}
 \label{table:1}

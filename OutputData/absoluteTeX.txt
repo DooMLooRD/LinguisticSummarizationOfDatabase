@@ -1,0 +1,14 @@
+\begin{table}[H]
+\centering \tiny
+\begin{tabular}{|M{9cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|M{0,4cm}|}
+\hline
+Podsumowanie & $T$ & $T_1$ & $T_2$ & $T_3$ & $T_4$ & $T_5$ & $T_6$ & $T_7$ & $T_8$ & $T_9$ & $T_{10}$ & $T_{11}$ \\ \hline
+About 15000 days are/have Warm MinTemp & 0,69 & 1 & 0,84 & 0,4 & 0 & 1 & 0,73 & 0,73 & 0,84 & 0 & 0 & 0\\ \hline
+About 0 days are/have Warm MinTemp & 0,6 & 0 & 0,84 & 0,4 & 0 & 1 & 0,87 & 0,87 & 0,84 & 0 & 0 & 0\\ \hline
+About 50000 days are/have Warm MinTemp & 0,6 & 0 & 0,84 & 0,4 & 0 & 1 & 0,84 & 0,84 & 0,84 & 0 & 0 & 0\\ \hline
+About 27000 days are/have Warm MinTemp & 0,59 & 0 & 0,84 & 0,4 & 0 & 1 & 0,82 & 0,82 & 0,84 & 0 & 0 & 0\\ \hline
+About 40000 days are/have Warm MinTemp & 0,57 & 0 & 0,84 & 0,4 & 0 & 1 & 0,73 & 0,73 & 0,84 & 0 & 0 & 0\\ \hline
+\end{tabular}
+\caption{Sth}
+\label{table:1}
+\end{table}
